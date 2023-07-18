@@ -8,7 +8,7 @@
 
 
 -------------
-### To run this terratest, You must have the terraform vm module and should be in the same root and you need to export the given variale in your environment and then run go test.
+### To run this terratest, You must have the terraform ADO-Agent module and should be in the same root and you need to export the given variale in your environment and then run go test.
 
  
 
@@ -46,3 +46,11 @@
         ii.  Add your organisation name
         
         iii. Add your pool id
+
+4. In the last, you need to run the below command to run the test case:-
+
+             go mod init <>
+
+             go mod tidy
+
+             go test -v
