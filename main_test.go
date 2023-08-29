@@ -23,15 +23,15 @@ type AgentResponse struct {
 
 
 var (
-	organizationURL     = "< >" 
-	organizationName    = "< >"
-	expectedStatus      = "online"
-	poolID = < >
+	organizationMKURL     = "< >" 
+	organizationMKName    = "< >"
+	expectedStatusMKMK      = "online"
+	poolIDMKMK = < >
 )
 
 
 
-func TestAzureVMWithLogic(t *testing.T) {
+func TestAzureVMWithLogicMK(t *testing.T) {
 	t.Parallel()
 
 	terraformOptions := &terraform.Options{
@@ -47,26 +47,26 @@ func TestAzureVMWithLogic(t *testing.T) {
 	terraform.InitAndApply(t, terraformOptions)
 
 
-	personalAccessToken := os.Getenv("TF_VAR_adotoken")
-	// fmt.Println("Personal Access Token for the ADO:-",personalAccessToken)
-	if personalAccessToken == "" {
+	personalAccessTokenMK := os.Getenv("TF_VAR_adotoken")
+	// fmt.Println("Personal Access Token for the ADO:-",personalAccessTokenMK)
+	if personalAccessTokenMK == "" {
 		t.Fatal("TF_VAR_token environment variable is not set")
 	}
 
-	agentNames := terraform.OutputList(t, terraformOptions, "agent_name")
-	for _, name := range agentNames {
+	agentNamesMK := terraform.OutputList(t, terraformOptions, "agent_name")
+	for _, name := range agentNamesMK {
 		// fmt.Println(name)
 
-		agent, err := getAgent(organizationURL, personalAccessToken, name)
+		agent, err := getAgentMK(organizationMKURL, personalAccessTokenMK, name)
 		if err != nil {
 			assert.Fail(t, "Failed to retrieve agent:", err.Error())
 			continue
 		}
 		
 		assert.NotNil(t, agent, "Agent not found")
-		t.Run(fmt.Sprintf("Agent status has been matched for agent: %s", name), func(t *testing.T) {
+		t.Run(fmt.Sprintf("Wow, your agent status has been matched: %s", name), func(t *testing.T) {
 			// Check the agent status matches the expected status
-			assert.Equal(t, expectedStatus, agent.Status, "Agent status mismatch")
+			assert.Equal(t, expectedStatusMK, agent.Status, "Status is not matched for agent")
    		 })
 	}
 
@@ -76,10 +76,10 @@ func TestAzureVMWithLogic(t *testing.T) {
 
 
 
-func getAgent(organizationURL, personalAccessToken, agentName string) (*Agent, error) {
+func getAgentMK(organizationMKURL, personalAccessTokenMK, agentName string) (*Agent, error) {
 	client := &http.Client{}
 
-	url := fmt.Sprintf("%s/%s/_apis/distributedtask/pools/%d/agents?api-version=6.1-preview.1", organizationURL, organizationName, poolID)
+	url := fmt.Sprintf("%s/%s/_apis/distributedtask/pools/%d/agents?api-version=6.1-preview.1", organizationMKURL, organizationMKName, poolIDMK)
 	// fmt.Println(url)
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -87,7 +87,7 @@ func getAgent(organizationURL, personalAccessToken, agentName string) (*Agent, e
 		return nil, err
 	}
 
-	token := base64.StdEncoding.EncodeToString([]byte(":" + personalAccessToken))
+	token := base64.StdEncoding.EncodeToString([]byte(":" + personalAccessTokenMK))
 	req.Header.Set("Authorization", "Basic "+token)
 
 	resp, err := client.Do(req)
