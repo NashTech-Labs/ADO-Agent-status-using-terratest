@@ -25,19 +25,19 @@
 
  
 
-        export ARM_CLIENT_ID=""
+        export CLIENT_ID=""
 
  
 
-        export ARM_CLIENT_SECRET=""
+        export CLIENT_SECRET=""
 
  
 
-        export ARM_TENANT_ID=""
+        export TENANT_ID=""
 
  
 
-        export ARM_SUBSCRIPTION_ID=""%           
+        export SUBSCRIPTION_ID=""%           
 
 3. You need to add the following values this code:
 
